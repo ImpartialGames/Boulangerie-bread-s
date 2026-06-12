@@ -234,12 +234,19 @@
         date: data.date,
         people: data.people || '',
         message: data.message,
+        answers: data.answers || [],   /* paires { q, a } du formulaire conversationnel */
+        photo: data.photo || '',       /* image d'inspiration (dataURL compressée) */
         status: 'new', /* new → handled */
         createdAt: new Date().toISOString()
       };
       var requests = read(KEY_REQUESTS, []);
       requests.unshift(request);
-      write(KEY_REQUESTS, requests);
+      try {
+        write(KEY_REQUESTS, requests);
+      } catch (e) {
+        /* quota localStorage dépassé (image trop lourde) */
+        return Promise.reject(new Error('Enregistrement impossible : pièce jointe trop lourde.'));
+      }
       return resolve(request);
     },
 

@@ -157,11 +157,26 @@
       document.getElementById('requests-empty').hidden = requests.length > 0;
 
       requestsList.innerHTML = requests.map(function (r) {
+        var phone = (r.customer.phone || '').trim();
         var contact = esc(r.customer.name) +
-          ' · <a href="tel:' + esc(r.customer.phone.replace(/\s/g, '')) + '">' + esc(r.customer.phone) + '</a>' +
-          (r.customer.email ? ' · ' + esc(r.customer.email) : '');
-        var eventLine = esc(r.event) + ' — ' + eventFmt.format(new Date(r.date + 'T12:00:00')) +
+          (phone ? ' · <a href="tel:' + esc(phone.replace(/\s/g, '')) + '">' + esc(phone) + '</a>' : '') +
+          (r.customer.email ? ' · <a href="mailto:' + esc(r.customer.email) + '">' + esc(r.customer.email) + '</a>' : '');
+        var eventLine = esc(r.event) +
+          (r.date ? ' — ' + eventFmt.format(new Date(r.date + 'T12:00:00')) : '') +
           (r.people ? ' · ' + esc(r.people) + ' personnes' : '');
+
+        /* formulaire conversationnel : réponses question par question ;
+           anciennes demandes : message libre */
+        var body;
+        if (r.answers && r.answers.length) {
+          body = '<dl class="qa-list">' + r.answers.map(function (a) {
+            return '<div class="qa-item"><dt>' + esc(a.q) + '</dt><dd>' + esc(a.a) + '</dd></div>';
+          }).join('') + '</dl>' +
+          (r.photo ? '<img class="qa-photo" src="' + esc(r.photo) + '" alt="Image d’inspiration envoyée par le client">' : '');
+        } else {
+          body = r.message ? '<p class="order-note">«&nbsp;' + esc(r.message) + '&nbsp;»</p>' : '';
+        }
+
         var action = r.status === 'new'
           ? '<button class="btn btn-solid btn-sm" type="button" data-request-status="handled" data-id="' + r.id + '">Marquer traitée</button>'
           : '<button class="btn btn-outline btn-sm" type="button" data-request-status="new" data-id="' + r.id + '">Rouvrir</button>';
@@ -174,7 +189,7 @@
           '</div>' +
           '<p class="order-customer">' + contact + '</p>' +
           '<p class="order-pickup">' + eventLine + '</p>' +
-          '<p class="order-note">«&nbsp;' + esc(r.message) + '&nbsp;»</p>' +
+          body +
           '<div class="order-bottom">' +
             '<span></span>' +
             '<div class="order-actions">' + action + '</div>' +

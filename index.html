@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Boulangerie Bread's · Boulangerie-pâtisserie artisanale à Limeil-Brévannes</title>
   <meta name="description" content="Pains au levain naturel, viennoiseries pur beurre, pâtisseries de saison et gâteaux sur-mesure. Boulangerie Bread's, votre artisan au cœur de Limeil-Brévannes. Ouvert 7j/7, 6h30 à 20h00.">
-  <meta name="theme-color" content="#16120E">
+  <meta name="theme-color" content="#F2EBE0">
   <meta property="og:title" content="Boulangerie Bread's · Artisan boulanger-pâtissier à Limeil-Brévannes">
   <meta property="og:description" content="Pains au levain naturel, viennoiseries pur beurre et créations sur-mesure. Ouvert 7j/7, 6h30 à 20h00.">
   <meta property="og:type" content="website">
@@ -114,7 +114,7 @@
         </g>
 
         <!-- Vapeur du pain encore chaud -->
-        <g class="pl-steam" fill="none" stroke="rgba(242, 235, 224, 0.55)" stroke-width="3" stroke-linecap="round">
+        <g class="pl-steam" fill="none" stroke="rgba(138, 93, 36, 0.5)" stroke-width="3" stroke-linecap="round">
           <path class="pl-steam-1" d="M203 76 q7 -9 0 -18 q-7 -9 0 -18"/>
           <path class="pl-steam-2" d="M228 72 q7 -9 0 -18 q-7 -9 0 -18"/>
           <path class="pl-steam-3" d="M253 76 q7 -9 0 -18 q-7 -9 0 -18"/>
@@ -593,69 +593,42 @@
       </div>
     </section>
 
-    <!-- ============ 6bis. DEMANDE SUR-MESURE ============ -->
+    <!-- ============ 6bis. DEMANDE SUR-MESURE (formulaire conversationnel) ============ -->
     <section class="request section" id="demande" aria-labelledby="request-title">
-      <div class="container request-grid">
-        <div class="request-copy">
+      <div class="container">
+        <div class="section-head request-head">
           <p class="badge" data-reveal>Sur-mesure</p>
           <h2 id="request-title" data-reveal style="--i:1">Racontez-nous votre projet</h2>
-          <p data-reveal style="--i:2">Mariage, anniversaire, baptême ou événement d&rsquo;entreprise&nbsp;: décrivez votre envie et nous vous rappelons sous 24&nbsp;h avec des idées et un devis — offert, sans engagement.</p>
+          <p class="selection-intro" data-reveal style="--i:2">Quelques questions, deux minutes&nbsp;: nous vous rappelons sous 24&nbsp;h avec des idées et un devis — offert, sans engagement.</p>
         </div>
 
-        <div class="request-panel" data-reveal style="--i:2">
-          <form id="custom-form">
-            <div class="field-row">
-              <div class="field">
-                <label for="cf-name">Votre nom&nbsp;*</label>
-                <input id="cf-name" name="name" type="text" required autocomplete="name">
-              </div>
-              <div class="field">
-                <label for="cf-phone">Téléphone&nbsp;*</label>
-                <input id="cf-phone" name="phone" type="tel" required autocomplete="tel" minlength="10">
-              </div>
-            </div>
-            <div class="field">
-              <label for="cf-email">E-mail <span class="field-opt">(facultatif)</span></label>
-              <input id="cf-email" name="email" type="email" autocomplete="email">
-            </div>
-            <div class="field-row">
-              <div class="field">
-                <label for="cf-event">L&rsquo;occasion&nbsp;*</label>
-                <select id="cf-event" name="event" required>
-                  <option value="" disabled selected>Choisir…</option>
-                  <option>Mariage</option>
-                  <option>Anniversaire</option>
-                  <option>Baptême</option>
-                  <option>Entreprise</option>
-                  <option>Autre</option>
-                </select>
-              </div>
-              <div class="field">
-                <label for="cf-date">Pour quand&nbsp;?&nbsp;*</label>
-                <input id="cf-date" name="date" type="date" required>
-              </div>
-            </div>
-            <div class="field">
-              <label for="cf-people">Nombre de personnes <span class="field-opt">(facultatif)</span></label>
-              <input id="cf-people" name="people" type="number" min="1" step="1">
-            </div>
-            <div class="field">
-              <label for="cf-message">Votre envie&nbsp;*</label>
-              <textarea id="cf-message" name="message" rows="4" required placeholder="Pièce montée, gâteau à thème, saveurs préférées, inspiration…"></textarea>
-            </div>
-            <p class="reserve-error" id="custom-error" role="alert" hidden></p>
-            <button class="btn btn-solid reserve-submit" type="submit">Envoyer ma demande</button>
-            <p class="reserve-hint">Demande sans engagement — le devis est offert.</p>
-          </form>
+        <div class="convo" id="convo" data-reveal style="--i:3">
+          <div class="convo-steps" id="convo-steps"></div>
 
-          <div class="request-done" id="custom-step-done" hidden>
-            <h3>Demande envoyée&nbsp;!</h3>
-            <p class="reserve-ref">Référence&nbsp;: <strong id="custom-done-ref"></strong></p>
-            <p id="custom-done-summary"></p>
-            <p class="reserve-hint">Nous vous rappelons très vite pour imaginer votre création ensemble.</p>
-            <button class="btn btn-outline btn-sm" type="button" id="custom-again">Faire une autre demande</button>
+          <div class="convo-footer" id="convo-footer">
+            <div class="convo-progress">
+              <span id="convo-progress-label">0&nbsp;% complété</span>
+              <span class="convo-bar" aria-hidden="true"><span id="convo-bar-fill"></span></span>
+            </div>
+            <div class="convo-nav">
+              <button type="button" id="convo-prev" aria-label="Question précédente" disabled>
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 14 6-6 6 6"/></svg>
+              </button>
+              <button type="button" id="convo-next" aria-label="Question suivante">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 10 6 6 6-6"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="request-done" id="convo-done" hidden>
+            <h3>Merci pour votre message&nbsp;!</h3>
+            <p>Nous vous contacterons dans les plus brefs délais.</p>
+            <p class="reserve-ref">Référence&nbsp;: <strong id="convo-done-ref"></strong></p>
+            <button class="btn btn-outline btn-sm" type="button" id="convo-again">Faire une autre demande</button>
           </div>
         </div>
+
+        <p class="reserve-hint convo-bottom-hint">Demande sans engagement — le devis est offert.</p>
       </div>
     </section>
 

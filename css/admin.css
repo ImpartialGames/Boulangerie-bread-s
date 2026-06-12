@@ -169,9 +169,9 @@
   color: var(--muted);
 }
 .order-status.is-new { border-color: var(--accent); color: var(--accent-strong); }
-.order-status.is-ready { border-color: #7A9B76; color: #9FC29A; }
+.order-status.is-ready { border-color: #6B8F67; color: #3F6B3C; }
 .order-status.is-done { opacity: 0.7; }
-.order-status.is-cancelled { border-color: #A06458; color: #C98C7E; }
+.order-status.is-cancelled { border-color: #A06458; color: #A4533F; }
 
 .order-customer { font-size: 0.95rem; }
 .order-customer a { color: var(--accent-strong); }
@@ -200,6 +200,36 @@
   font-style: italic;
   color: var(--muted);
   max-width: none;
+}
+
+/* Réponses du formulaire conversationnel (demandes sur-mesure) */
+.qa-list {
+  display: grid;
+  gap: 12px;
+  margin: 4px 0;
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.4);
+  border: 1px solid var(--hairline);
+  border-radius: 12px;
+}
+.qa-item dt {
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 2px;
+}
+.qa-item dd {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+.qa-photo {
+  max-width: 200px;
+  max-height: 160px;
+  border-radius: 10px;
+  border: 1px solid var(--hairline);
+  margin-top: 4px;
 }
 .order-bottom {
   display: flex;
@@ -271,7 +301,7 @@
   width: 40px;
   height: 22px;
   border-radius: 999px;
-  background: rgba(242, 235, 224, 0.15);
+  background: rgba(51, 39, 27, 0.18);
   position: relative;
   transition: background-color 0.3s var(--ease);
 }
@@ -300,7 +330,7 @@
   color: var(--muted);
   transition: all 0.3s var(--ease);
 }
-.icon-btn:hover { color: var(--ink); background: rgba(242, 235, 224, 0.08); }
+.icon-btn:hover { color: var(--ink); background: rgba(51, 39, 27, 0.07); }
 
 .field-check label {
   display: flex;
