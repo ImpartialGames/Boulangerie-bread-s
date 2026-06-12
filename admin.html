@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Espace fournil · Boulangerie Bread's</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#16120E">
+  <link rel="icon" type="image/webp" href="assets/logo.webp">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-page">
+
+  <header class="admin-header">
+    <div class="container admin-header-inner">
+      <a class="brand" href="index.html" aria-label="Retour au site">
+        <img src="assets/logo.webp" alt="" width="46" height="46">
+        <span class="brand-name">Bread&rsquo;s</span>
+      </a>
+      <p class="admin-title">Espace fournil</p>
+      <a class="link-quiet" href="index.html">Voir le site</a>
+    </div>
+  </header>
+
+  <!-- Écran de verrouillage -->
+  <main class="admin-lock container" id="admin-lock">
+    <form class="lock-card" id="lock-form">
+      <h1>Espace fournil</h1>
+      <p>Entrez votre code d&rsquo;accès pour gérer la sélection du jour et les réservations.</p>
+      <div class="field">
+        <label for="lock-pin">Code d&rsquo;accès</label>
+        <input id="lock-pin" type="password" inputmode="numeric" autocomplete="off" required>
+      </div>
+      <p class="reserve-error" id="lock-error" role="alert" hidden>Code incorrect.</p>
+      <button class="btn btn-solid" type="submit">Entrer</button>
+    </form>
+  </main>
+
+  <!-- Application -->
+  <main class="admin-app container" id="admin-app" hidden>
+
+    <p class="demo-note">Mode démo&nbsp;: les données sont enregistrées dans ce navigateur uniquement.</p>
+
+    <div class="admin-tabs" role="tablist" aria-label="Sections">
+      <button class="admin-tab is-active" type="button" role="tab" aria-selected="true" data-tab="orders" id="tab-orders">
+        Commandes <span class="tab-badge" id="orders-badge" hidden></span>
+      </button>
+      <button class="admin-tab" type="button" role="tab" aria-selected="false" data-tab="products" id="tab-products">
+        Produits du jour
+      </button>
+      <button class="admin-tab" type="button" role="tab" aria-selected="false" data-tab="requests" id="tab-requests">
+        Demandes sur-mesure <span class="tab-badge" id="requests-badge" hidden></span>
+      </button>
+    </div>
+
+    <!-- Commandes / réservations -->
+    <section class="admin-panel" id="panel-orders" role="tabpanel" aria-labelledby="tab-orders">
+      <div class="panel-head">
+        <h2>Réservations</h2>
+        <div class="chip-row" id="orders-filter">
+          <button class="chip is-active" type="button" data-filter="active">En cours</button>
+          <button class="chip" type="button" data-filter="history">Historique</button>
+        </div>
+      </div>
+      <div class="orders-list" id="orders-list"></div>
+      <p class="admin-empty" id="orders-empty" hidden>Aucune réservation pour le moment.</p>
+    </section>
+
+    <!-- Produits du jour -->
+    <section class="admin-panel" id="panel-products" role="tabpanel" aria-labelledby="tab-products" hidden>
+      <div class="panel-head">
+        <h2>Sélection du jour</h2>
+        <button class="btn btn-solid btn-sm" type="button" id="product-add">Ajouter un produit</button>
+      </div>
+      <p class="panel-hint">Ce que vous activez ici apparaît immédiatement dans «&nbsp;La sélection du jour&nbsp;» du site.</p>
+      <div class="products-list" id="products-list"></div>
+    </section>
+
+    <!-- Demandes sur-mesure -->
+    <section class="admin-panel" id="panel-requests" role="tabpanel" aria-labelledby="tab-requests" hidden>
+      <div class="panel-head">
+        <h2>Demandes sur-mesure</h2>
+      </div>
+      <p class="panel-hint">Les projets envoyés depuis «&nbsp;Le gâteau de vos grands jours&nbsp;»&nbsp;: rappelez le client pour en discuter, puis marquez la demande traitée.</p>
+      <div class="orders-list" id="requests-list"></div>
+      <p class="admin-empty" id="requests-empty" hidden>Aucune demande pour le moment.</p>
+    </section>
+  </main>
+
+  <!-- Fiche produit (création / édition) -->
+  <dialog class="reserve" id="product-dialog" aria-labelledby="product-dialog-title">
+    <button class="reserve-close" type="button" id="product-dialog-close" aria-label="Fermer">
+      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+    <h2 id="product-dialog-title">Produit</h2>
+    <form id="product-form">
+      <input type="hidden" name="id">
+      <div class="field">
+        <label for="pf-name">Nom&nbsp;*</label>
+        <input id="pf-name" name="name" type="text" required>
+      </div>
+      <div class="field">
+        <label for="pf-desc">Description courte</label>
+        <input id="pf-desc" name="desc" type="text">
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="pf-price">Prix (€)&nbsp;*</label>
+          <input id="pf-price" name="price" type="number" min="0" step="0.01" required>
+        </div>
+        <div class="field">
+          <label for="pf-stock">Quantité du jour&nbsp;*</label>
+          <input id="pf-stock" name="stock" type="number" min="0" step="1" required>
+        </div>
+      </div>
+      <div class="field">
+        <label for="pf-photo">Photo (URL)</label>
+        <input id="pf-photo" name="photo" type="url" placeholder="https://…">
+      </div>
+      <div class="field field-check">
+        <label><input id="pf-visible" name="visible" type="checkbox" checked> Visible sur le site</label>
+      </div>
+      <button class="btn btn-solid reserve-submit" type="submit">Enregistrer</button>
+    </form>
+  </dialog>
+
+  <script src="js/store.js" defer></script>
+  <script src="js/admin.js" defer></script>
+</body>
+</html>

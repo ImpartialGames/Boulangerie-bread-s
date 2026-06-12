@@ -4,6 +4,36 @@
 
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
+  /* ---------- Intro : le pain se fait trancher ---------- */
+  var docEl = document.documentElement;
+  var preloader = document.getElementById('preloader');
+  var introDone = false;
+  var introQueue = [];
+  function whenIntroDone(fn) {
+    if (introDone) { fn(); } else { introQueue.push(fn); }
+  }
+  function endIntro() {
+    if (introDone) return;
+    introDone = true;
+    docEl.classList.remove('is-preloading');
+    introQueue.forEach(function (fn) { fn(); });
+    introQueue.length = 0;
+  }
+  if (preloader) {
+    try { sessionStorage.setItem('breads-intro', '1'); } catch (e) { /* navigation privée */ }
+    var introDelay = docEl.classList.contains('intro-quick') ? 450 : 4800;
+    window.setTimeout(function () {
+      preloader.classList.add('is-leaving');
+      /* le rideau se lève : les apparitions du héros démarrent pendant la montée */
+      window.setTimeout(endIntro, 300);
+      window.setTimeout(function () {
+        if (preloader.parentNode) preloader.parentNode.removeChild(preloader);
+      }, 1000);
+    }, introDelay);
+  } else {
+    endIntro();
+  }
+
   /* ---------- Header : état au scroll ---------- */
   var header = document.getElementById('header');
   var lastHeaderState = false;
@@ -28,7 +58,9 @@
         }
       });
     }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
-    revealEls.forEach(function (el) { revealObserver.observe(el); });
+    whenIntroDone(function () {
+      revealEls.forEach(function (el) { revealObserver.observe(el); });
+    });
   } else {
     revealEls.forEach(function (el) { el.classList.add('is-in'); });
   }
@@ -73,7 +105,9 @@
         }
       });
     }, { threshold: 0.6 });
-    counters.forEach(function (el) { counterObserver.observe(el); });
+    whenIntroDone(function () {
+      counters.forEach(function (el) { counterObserver.observe(el); });
+    });
   } else {
     counters.forEach(function (el) { el.textContent = el.getAttribute('data-count'); });
   }

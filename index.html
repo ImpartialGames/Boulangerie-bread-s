@@ -17,9 +17,151 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
   <link rel="preload" as="image" href="assets/hero.webp" fetchpriority="high">
-  <script>document.documentElement.classList.add('js');</script>
+  <script>
+    document.documentElement.classList.add('js');
+    (function () {
+      /* Intro : version complète à la première visite, écourtée ensuite (et si reduced-motion) */
+      var seen = false;
+      try { seen = sessionStorage.getItem('breads-intro') === '1'; } catch (e) {}
+      if (seen || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.documentElement.classList.add('intro-quick');
+      }
+      document.documentElement.classList.add('is-preloading');
+    })();
+  </script>
 </head>
 <body>
+
+  <!-- ============ INTRO : LE PAIN SE FAIT TRANCHER ============ -->
+  <div class="preloader" id="preloader" role="status" aria-label="Chargement de la boulangerie Bread's">
+
+    <!-- Éléments de boulangerie-pâtisserie qui flottent -->
+    <svg class="pl-float pl-float-wheat" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 22V7"/>
+      <path d="M12 7C12 4.8 10.6 3 8.5 2.6 8.5 4.8 9.9 6.6 12 7Z"/>
+      <path d="M12 7c0-2.2 1.4-4 3.5-4.4 0 2.2-1.4 4-3.5 4.4Z"/>
+      <path d="M12 11.5C12 9.3 10.6 7.5 8.5 7.1c0 2.2 1.4 4 3.5 4.4Z"/>
+      <path d="M12 11.5c0-2.2 1.4-4 3.5-4.4 0 2.2-1.4 4-3.5 4.4Z"/>
+      <path d="M12 16C12 13.8 10.6 12 8.5 11.6c0 2.2 1.4 4 3.5 4.4Z"/>
+      <path d="M12 16c0-2.2 1.4-4 3.5-4.4 0 2.2-1.4 4-3.5 4.4Z"/>
+    </svg>
+    <svg class="pl-float pl-float-croissant" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M9 6.5C5.5 8 3 11 3 13.5 3 16 5 17.5 7.5 17.5c.9 0 1.8-.2 2.5-.5"/>
+      <path d="M15 6.5c3.5 1.5 6 4.5 6 7 0 2.5-2 4-4.5 4-.9 0-1.8-.2-2.5-.5"/>
+      <path d="M9 6.5C9.8 5 10.8 4 12 4s2.2 1 3 2.5c.6 1.7.6 6-.5 9-.7 1-1.5 1.5-2.5 1.5s-1.8-.5-2.5-1.5c-1.1-3-1.1-7.3-.5-9Z"/>
+    </svg>
+    <svg class="pl-float pl-float-whisk" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 15c-2.5 0-4-1.7-4-4.2C8 7.5 9.5 2 12 2s4 5.5 4 8.8c0 2.5-1.5 4.2-4 4.2Z"/>
+      <path d="M12 2c-1 2.5-1.5 6-1.5 8.8 0 1.6.4 2.9 1.5 4.2 1.1-1.3 1.5-2.6 1.5-4.2C13.5 8 13 4.5 12 2Z"/>
+      <path d="M12 15v7"/>
+    </svg>
+    <svg class="pl-float pl-float-cupcake" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M7.5 13.5h9L15.3 21H8.7L7.5 13.5Z"/>
+      <path d="M7.5 13.5c-1.7 0-3-1-3-2.4 0-1.1.9-2 2-2.1C6.5 6.8 9 5 12 5s5.5 1.8 5.5 4c1.1.1 2 1 2 2.1 0 1.4-1.3 2.4-3 2.4"/>
+    </svg>
+    <svg class="pl-float pl-float-pin" viewBox="0 0 24 24" aria-hidden="true">
+      <rect x="5" y="9.5" width="14" height="5" rx="2.5"/>
+      <path d="M2 12h3M19 12h3"/>
+    </svg>
+    <svg class="pl-float pl-float-baguette" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M4.6 19.4C2.7 17.5 6.5 10 11 5.5c2.6-2.6 5.4-3 7-1.4s1.2 4.4-1.4 7C12.1 15.6 6.5 21.3 4.6 19.4Z"/>
+      <path d="M8.5 13.5l2 2M11.5 10.5l2 2M14.5 7.5l2 2"/>
+    </svg>
+
+    <div class="preloader-inner">
+      <div class="preloader-brand">
+        <img src="assets/logo.webp" alt="" width="60" height="60">
+        <p class="preloader-name">Bread&rsquo;s</p>
+      </div>
+
+      <!-- La scène : une miche tranchée au couteau -->
+      <svg class="preloader-scene" viewBox="0 0 360 230" aria-hidden="true">
+        <defs>
+          <linearGradient id="pl-crust" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#DBAB66"/>
+            <stop offset="1" stop-color="#A86B33"/>
+          </linearGradient>
+          <linearGradient id="pl-blade" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#E9E4DA"/>
+            <stop offset="1" stop-color="#B9B2A4"/>
+          </linearGradient>
+        </defs>
+
+        <ellipse class="pl-shadow" cx="192" cy="196" rx="138" ry="9" fill="rgba(0, 0, 0, 0.35)"/>
+
+        <!-- Miche restante -->
+        <g class="pl-loaf">
+          <path d="M150 192 L150 116 Q150 90 178 88 L256 88 Q306 91 306 138 L306 192 Z" fill="url(#pl-crust)"/>
+          <path d="M150 192 V116 Q150 90 178 88 Q160 97 158 120 L158 192 Z" fill="#EDDFC6"/>
+          <path d="M196 95q12-7 22-3M232 92q12-5 22 0M266 96q10-3 18 3" stroke="#8F5D28" stroke-width="3" fill="none" stroke-linecap="round"/>
+        </g>
+
+        <!-- Tranches (tombent l'une après l'autre) -->
+        <g class="pl-slice pl-slice-1">
+          <path d="M72 192 L72 120 Q72 94 85 93 Q98 94 98 120 L98 192 Z" fill="#D89A55" stroke="#A86B33" stroke-width="3" stroke-linejoin="round"/>
+        </g>
+        <g class="pl-slice pl-slice-2">
+          <path d="M98 192 L98 120 Q98 94 111 93 Q124 94 124 120 L124 192 Z" fill="#F2EBE0" stroke="#B8783C" stroke-width="3" stroke-linejoin="round"/>
+          <circle cx="108" cy="135" r="2.6" fill="#E0D2B8"/>
+          <circle cx="115" cy="158" r="3.2" fill="#E0D2B8"/>
+          <circle cx="106" cy="174" r="2.2" fill="#E0D2B8"/>
+        </g>
+        <g class="pl-slice pl-slice-3">
+          <path d="M124 192 L124 120 Q124 94 137 93 Q150 94 150 120 L150 192 Z" fill="#F2EBE0" stroke="#B8783C" stroke-width="3" stroke-linejoin="round"/>
+          <circle cx="134" cy="140" r="2.6" fill="#E0D2B8"/>
+          <circle cx="141" cy="162" r="3" fill="#E0D2B8"/>
+          <circle cx="133" cy="177" r="2" fill="#E0D2B8"/>
+        </g>
+
+        <!-- Vapeur du pain encore chaud -->
+        <g class="pl-steam" fill="none" stroke="rgba(242, 235, 224, 0.55)" stroke-width="3" stroke-linecap="round">
+          <path class="pl-steam-1" d="M203 76 q7 -9 0 -18 q-7 -9 0 -18"/>
+          <path class="pl-steam-2" d="M228 72 q7 -9 0 -18 q-7 -9 0 -18"/>
+          <path class="pl-steam-3" d="M253 76 q7 -9 0 -18 q-7 -9 0 -18"/>
+        </g>
+
+        <!-- Nuages de farine à chaque coup de couteau -->
+        <g class="pl-puff pl-puff-1">
+          <circle cx="92" cy="104" r="5"/>
+          <circle cx="102" cy="97" r="4"/>
+          <circle cx="97" cy="90" r="3"/>
+        </g>
+        <g class="pl-puff pl-puff-2">
+          <circle cx="118" cy="104" r="5"/>
+          <circle cx="128" cy="97" r="4"/>
+          <circle cx="123" cy="90" r="3"/>
+        </g>
+        <g class="pl-puff pl-puff-3">
+          <circle cx="144" cy="104" r="5"/>
+          <circle cx="154" cy="97" r="4"/>
+          <circle cx="149" cy="90" r="3"/>
+        </g>
+
+        <!-- Miettes projetées à chaque coup -->
+        <g class="pl-crumbs pl-crumbs-1">
+          <circle cx="86" cy="118" r="2"/><circle cx="96" cy="110" r="1.6"/><circle cx="91" cy="126" r="1.4"/>
+        </g>
+        <g class="pl-crumbs pl-crumbs-2">
+          <circle cx="112" cy="118" r="2"/><circle cx="122" cy="110" r="1.6"/><circle cx="117" cy="126" r="1.4"/>
+        </g>
+        <g class="pl-crumbs pl-crumbs-3">
+          <circle cx="138" cy="118" r="2"/><circle cx="148" cy="110" r="1.6"/><circle cx="143" cy="126" r="1.4"/>
+        </g>
+
+        <!-- Couteau -->
+        <g class="pl-knife">
+          <path d="M44 150 L138 150 L138 165 Q88 184 50 167 Q44 160 44 150 Z" fill="url(#pl-blade)"/>
+          <rect x="134" y="146" width="6" height="18" rx="2" fill="#9C9484"/>
+          <rect x="140" y="147" width="44" height="16" rx="7" fill="#4E3B29"/>
+          <circle cx="152" cy="155" r="2" fill="#C9B79B"/>
+          <circle cx="168" cy="155" r="2" fill="#C9B79B"/>
+        </g>
+      </svg>
+
+      <p class="preloader-caption">Une seconde, on tranche le pain&hellip;</p>
+      <div class="preloader-progress"><span></span></div>
+    </div>
+  </div>
 
   <a class="skip-link" href="#top">Aller au contenu</a>
 
@@ -37,7 +179,7 @@
           <li><a href="#galerie">Galerie</a></li>
         </ul>
       </nav>
-      <a class="btn btn-solid btn-sm" href="#contact">Commander</a>
+      <a class="btn btn-solid btn-sm" href="#selection">Commander</a>
     </div>
   </header>
 
@@ -51,7 +193,7 @@
           <h1 id="hero-title" data-reveal style="--i:1">Votre boulangerie artisanale au cœur de <em>Limeil-Brévannes</em></h1>
           <p class="lead" data-reveal style="--i:2">Pains au levain naturel, viennoiseries pur beurre et pâtisseries de saison, pétris et cuits sur place chaque jour dès l&rsquo;aube.</p>
           <div class="cta-row" data-reveal style="--i:3">
-            <a class="btn btn-solid" href="#contact">Commander</a>
+            <a class="btn btn-solid" href="#selection">Commander</a>
             <a class="btn btn-outline" href="https://www.google.com/maps/search/?api=1&amp;query=Boulangerie+Bread%27s+Limeil-Br%C3%A9vannes" target="_blank" rel="noopener">Itinéraire</a>
           </div>
         </div>
@@ -169,6 +311,22 @@
       </div>
     </section>
 
+    <!-- ============ 3bis. SÉLECTION DU JOUR ============ -->
+    <section class="selection section" id="selection" aria-labelledby="selection-title">
+      <div class="container">
+        <div class="section-head section-head-split">
+          <div>
+            <p class="badge" data-reveal>Cliquez &amp; retirez</p>
+            <h2 id="selection-title" data-reveal style="--i:1">La sélection du jour</h2>
+          </div>
+          <p class="selection-date" id="selection-date" data-reveal style="--i:2"></p>
+        </div>
+        <p class="selection-intro" data-reveal>Réservez avant de passer&nbsp;: votre commande vous attend au comptoir et vous réglez sur place, au retrait.</p>
+        <ul class="selection-grid" id="selection-grid" aria-live="polite"></ul>
+        <p class="selection-empty" id="selection-empty" hidden>La sélection se prépare au fournil — revenez un peu plus tard, le pain sort du four dès 6h30.</p>
+      </div>
+    </section>
+
     <!-- ============ 4. CRÉATION SUR-MESURE ============ -->
     <section class="custom section section-cream" id="sur-mesure" aria-labelledby="custom-title">
       <div class="container custom-grid">
@@ -201,7 +359,7 @@
               <p>Livré et dressé le jour J.</p>
             </li>
           </ol>
-          <a class="btn btn-solid" href="#contact" data-reveal style="--i:6">Faire une demande</a>
+          <a class="btn btn-solid" href="#demande" data-reveal style="--i:6">Faire une demande</a>
         </div>
       </div>
     </section>
@@ -243,6 +401,9 @@
           </button>
           <button class="masonry-item ratio-34" type="button" data-lightbox="https://images.unsplash.com/photo-1568254183919-78a4f43a2877?auto=format&fit=crop&w=1400&q=80" data-caption="Le comptoir, prêt pour le service du soir" data-reveal style="--i:7">
             <img src="https://images.unsplash.com/photo-1568254183919-78a4f43a2877?auto=format&fit=crop&w=700&h=933&q=70" alt="Le comptoir, prêt pour le service du soir" width="700" height="933" loading="lazy" decoding="async">
+          </button>
+          <button class="masonry-item ratio-34" type="button" data-lightbox="https://images.unsplash.com/photo-1569864358642-9d1684040f43?auto=format&fit=crop&w=1400&q=80" data-caption="Macarons maison, parfums de saison" data-reveal style="--i:8">
+            <img src="https://images.unsplash.com/photo-1569864358642-9d1684040f43?auto=format&fit=crop&w=700&h=933&q=70" alt="Macarons maison aux teintes pastel, coques croquantes et cœur fondant" width="700" height="933" loading="lazy" decoding="async">
           </button>
         </div>
       </div>
@@ -432,6 +593,72 @@
       </div>
     </section>
 
+    <!-- ============ 6bis. DEMANDE SUR-MESURE ============ -->
+    <section class="request section" id="demande" aria-labelledby="request-title">
+      <div class="container request-grid">
+        <div class="request-copy">
+          <p class="badge" data-reveal>Sur-mesure</p>
+          <h2 id="request-title" data-reveal style="--i:1">Racontez-nous votre projet</h2>
+          <p data-reveal style="--i:2">Mariage, anniversaire, baptême ou événement d&rsquo;entreprise&nbsp;: décrivez votre envie et nous vous rappelons sous 24&nbsp;h avec des idées et un devis — offert, sans engagement.</p>
+        </div>
+
+        <div class="request-panel" data-reveal style="--i:2">
+          <form id="custom-form">
+            <div class="field-row">
+              <div class="field">
+                <label for="cf-name">Votre nom&nbsp;*</label>
+                <input id="cf-name" name="name" type="text" required autocomplete="name">
+              </div>
+              <div class="field">
+                <label for="cf-phone">Téléphone&nbsp;*</label>
+                <input id="cf-phone" name="phone" type="tel" required autocomplete="tel" minlength="10">
+              </div>
+            </div>
+            <div class="field">
+              <label for="cf-email">E-mail <span class="field-opt">(facultatif)</span></label>
+              <input id="cf-email" name="email" type="email" autocomplete="email">
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label for="cf-event">L&rsquo;occasion&nbsp;*</label>
+                <select id="cf-event" name="event" required>
+                  <option value="" disabled selected>Choisir…</option>
+                  <option>Mariage</option>
+                  <option>Anniversaire</option>
+                  <option>Baptême</option>
+                  <option>Entreprise</option>
+                  <option>Autre</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="cf-date">Pour quand&nbsp;?&nbsp;*</label>
+                <input id="cf-date" name="date" type="date" required>
+              </div>
+            </div>
+            <div class="field">
+              <label for="cf-people">Nombre de personnes <span class="field-opt">(facultatif)</span></label>
+              <input id="cf-people" name="people" type="number" min="1" step="1">
+            </div>
+            <div class="field">
+              <label for="cf-message">Votre envie&nbsp;*</label>
+              <textarea id="cf-message" name="message" rows="4" required placeholder="Pièce montée, gâteau à thème, saveurs préférées, inspiration…"></textarea>
+            </div>
+            <p class="reserve-error" id="custom-error" role="alert" hidden></p>
+            <button class="btn btn-solid reserve-submit" type="submit">Envoyer ma demande</button>
+            <p class="reserve-hint">Demande sans engagement — le devis est offert.</p>
+          </form>
+
+          <div class="request-done" id="custom-step-done" hidden>
+            <h3>Demande envoyée&nbsp;!</h3>
+            <p class="reserve-ref">Référence&nbsp;: <strong id="custom-done-ref"></strong></p>
+            <p id="custom-done-summary"></p>
+            <p class="reserve-hint">Nous vous rappelons très vite pour imaginer votre création ensemble.</p>
+            <button class="btn btn-outline btn-sm" type="button" id="custom-again">Faire une autre demande</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ============ 7. BANDEAU FINAL ============ -->
     <section class="finale section" id="contact" aria-labelledby="finale-title">
       <div class="container finale-inner">
@@ -501,6 +728,63 @@
     <button class="btn btn-outline btn-sm" type="button" id="legal-close">Fermer</button>
   </dialog>
 
+  <!-- Barre de panier (apparaît dès qu'un produit est ajouté) -->
+  <div class="cart-bar" id="cart-bar" hidden>
+    <div class="container cart-bar-inner">
+      <p class="cart-summary" id="cart-summary"></p>
+      <button class="btn btn-solid" type="button" id="cart-open">Réserver</button>
+    </div>
+  </div>
+
+  <!-- Réservation click & collect -->
+  <dialog class="reserve" id="reserve" aria-labelledby="reserve-title">
+    <button class="reserve-close" type="button" id="reserve-close" aria-label="Fermer">
+      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+
+    <div id="reserve-step-form">
+      <h2 id="reserve-title">Votre réservation</h2>
+      <ul class="reserve-recap" id="reserve-recap"></ul>
+      <p class="reserve-total">Total à régler sur place&nbsp;: <strong id="reserve-total"></strong></p>
+      <form id="reserve-form">
+        <div class="field">
+          <label for="rf-name">Votre nom&nbsp;*</label>
+          <input id="rf-name" name="name" type="text" required autocomplete="name">
+        </div>
+        <div class="field">
+          <label for="rf-phone">Téléphone&nbsp;*</label>
+          <input id="rf-phone" name="phone" type="tel" required autocomplete="tel" minlength="10">
+        </div>
+        <div class="field">
+          <label for="rf-email">E-mail <span class="field-opt">(facultatif)</span></label>
+          <input id="rf-email" name="email" type="email" autocomplete="email">
+        </div>
+        <div class="field">
+          <label for="rf-pickup">Heure de retrait&nbsp;*</label>
+          <select id="rf-pickup" name="pickup" required></select>
+        </div>
+        <div class="field">
+          <label for="rf-note">Un mot pour le fournil <span class="field-opt">(facultatif)</span></label>
+          <textarea id="rf-note" name="note" rows="2"></textarea>
+        </div>
+        <p class="reserve-error" id="reserve-error" role="alert" hidden></p>
+        <button class="btn btn-solid reserve-submit" type="submit">Confirmer la réservation</button>
+        <p class="reserve-hint">Sans paiement en ligne — vous réglez au comptoir lors du retrait.</p>
+      </form>
+    </div>
+
+    <div id="reserve-step-done" hidden>
+      <h2>C&rsquo;est noté&nbsp;!</h2>
+      <p class="reserve-ref">Référence&nbsp;: <strong id="done-ref"></strong></p>
+      <p id="done-summary"></p>
+      <p class="reserve-hint">Donnez votre nom ou cette référence au comptoir. À tout à l&rsquo;heure&nbsp;!</p>
+      <button class="btn btn-solid" type="button" id="reserve-done-close">Fermer</button>
+    </div>
+  </dialog>
+
+  <script src="js/store.js" defer></script>
+  <script src="js/selection.js" defer></script>
+  <script src="js/custom.js" defer></script>
   <script src="js/main.js" defer></script>
 </body>
 </html>

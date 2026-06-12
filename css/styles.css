@@ -36,6 +36,9 @@
 /* ---------- Reset & base ---------- */
 *, *::before, *::after { box-sizing: border-box; }
 
+/* l'attribut hidden doit gagner sur tout display posé en CSS */
+[hidden] { display: none !important; }
+
 html {
   scroll-behavior: smooth;
 }
@@ -920,6 +923,304 @@ section[id] { scroll-margin-top: 96px; }
 .legal p { color: var(--muted); font-size: 0.95rem; margin-bottom: 14px; }
 .legal button { margin-top: 12px; }
 
+/* ---------- 3bis. Sélection du jour (click & collect) ---------- */
+.selection-date {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.2rem;
+  color: var(--accent-strong);
+}
+
+.selection-intro {
+  color: var(--muted);
+  max-width: 52ch;
+  margin-bottom: clamp(32px, 5vw, 48px);
+}
+
+.selection-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: clamp(16px, 2.5vw, 28px);
+}
+
+.selection-empty {
+  color: var(--muted);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.3rem;
+  text-align: center;
+  max-width: none;
+  padding: clamp(32px, 6vw, 64px) 0;
+}
+
+.sel-card {
+  display: flex;
+  flex-direction: column;
+  background: rgba(242, 235, 224, 0.045);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+.sel-card img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+.sel-card.is-out img {
+  filter: grayscale(0.8);
+  opacity: 0.45;
+}
+
+.sel-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 18px 20px 20px;
+  flex: 1;
+}
+.sel-body h3 { font-size: 1.35rem; }
+.sel-desc {
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+.sel-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  margin-top: auto;
+}
+.sel-price {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--accent-strong);
+}
+.sel-stock {
+  font-size: 0.74rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.sel-stock.is-low { color: var(--accent-strong); }
+.sel-stock.is-out { color: #C98C7E; }
+
+.sel-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.sel-out-label {
+  font-size: 0.82rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.qty {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--hairline);
+  border-radius: 999px;
+}
+.qty button {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  font-size: 1.15rem;
+  line-height: 1;
+  border-radius: 999px;
+  transition: background-color 0.3s var(--ease);
+}
+.qty button:hover:not(:disabled) { background: rgba(242, 235, 224, 0.08); }
+.qty button:disabled { opacity: 0.3; cursor: default; }
+.qty-num {
+  min-width: 30px;
+  text-align: center;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+.sel-line {
+  font-size: 0.92rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Barre de panier */
+.cart-bar {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 30;
+  background: rgba(22, 18, 14, 0.94);
+  border-top: 1px solid var(--hairline);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.cart-bar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-block: 14px;
+}
+.cart-summary { font-size: 0.98rem; }
+.cart-summary strong { color: var(--accent-strong); font-weight: 500; }
+body.has-cart-bar { padding-bottom: 84px; }
+
+/* Dialog de réservation */
+.reserve {
+  background: var(--bg-2);
+  color: var(--ink);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+  padding: clamp(28px, 5vw, 44px);
+  width: min(560px, 92vw);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+.reserve::backdrop { background: rgba(13, 10, 7, 0.85); }
+.reserve h2 { font-size: 1.9rem; margin-bottom: 18px; }
+
+.reserve-close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid var(--hairline);
+  transition: background-color 0.3s var(--ease);
+}
+.reserve-close:hover { background: rgba(242, 235, 224, 0.08); }
+
+.reserve-recap {
+  list-style: none;
+  margin: 0 0 12px;
+  padding: 0 0 12px;
+  border-bottom: 1px solid var(--hairline);
+  display: grid;
+  gap: 6px;
+}
+.reserve-recap li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 0.95rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.reserve-total { font-size: 0.98rem; margin-bottom: 24px; }
+.reserve-total strong { color: var(--accent-strong); font-size: 1.15rem; }
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+.field label {
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.field-opt { text-transform: none; letter-spacing: 0.02em; opacity: 0.75; }
+.field input,
+.field select,
+.field textarea {
+  font: inherit;
+  color: var(--ink);
+  background: rgba(242, 235, 224, 0.06);
+  border: 1px solid var(--hairline);
+  border-radius: 12px;
+  padding: 11px 14px;
+}
+.field select { background-color: var(--bg-2); }
+.field textarea { resize: vertical; }
+.field input::placeholder,
+.field textarea::placeholder { color: rgba(181, 168, 147, 0.6); }
+
+.reserve-intro {
+  font-size: 0.95rem;
+  color: var(--muted);
+  margin-bottom: 22px;
+  max-width: none;
+}
+
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+@media (max-width: 640px) {
+  .field-row { grid-template-columns: 1fr; }
+}
+
+.reserve-error {
+  color: #E29A88;
+  font-size: 0.92rem;
+  margin-bottom: 14px;
+}
+.reserve-submit { width: 100%; }
+.reserve-hint {
+  margin-top: 14px;
+  font-size: 0.85rem;
+  color: var(--muted);
+  text-align: center;
+  max-width: none;
+}
+#reserve-step-done { text-align: center; }
+#reserve-step-done h2 { margin-top: 8px; }
+#reserve-step-done p { max-width: none; margin-bottom: 12px; }
+.reserve-ref strong { color: var(--accent-strong); letter-spacing: 0.08em; }
+#reserve-step-done .btn { margin-top: 10px; }
+
+/* ---------- 6bis. Demande sur-mesure (formulaire en page) ---------- */
+.request-grid {
+  display: grid;
+  gap: clamp(36px, 5vw, 72px);
+  align-items: start;
+}
+@media (min-width: 960px) {
+  .request-grid { grid-template-columns: 0.85fr 1.15fr; }
+  .request-copy { position: sticky; top: 120px; }
+}
+
+.request-copy .badge { margin-bottom: 22px; }
+.request-copy h2 {
+  font-size: clamp(2.1rem, 4.5vw, 3.25rem);
+  margin-bottom: 20px;
+}
+.request-copy p { color: rgba(245, 240, 232, 0.88); }
+
+.request-panel {
+  background: var(--bg-2);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-lg);
+  padding: clamp(24px, 4vw, 44px);
+}
+
+.request-done {
+  text-align: center;
+  padding-block: clamp(16px, 3vw, 32px);
+}
+.request-done h3 {
+  font-size: 1.9rem;
+  margin-bottom: 14px;
+}
+.request-done p { max-width: none; margin-bottom: 12px; }
+.request-done .btn { margin-top: 12px; }
+
 /* ---------- Apparitions au scroll ---------- */
 .js [data-reveal] {
   opacity: 0;
@@ -930,6 +1231,240 @@ section[id] { scroll-margin-top: 96px; }
 .js [data-reveal].is-in {
   opacity: 1;
   transform: none;
+}
+
+/* ---------- Intro : le pain se fait trancher ---------- */
+.preloader { display: none; }
+
+html.is-preloading { overflow: hidden; }
+
+.js .preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(120% 90% at 50% 0%, var(--bg-2) 0%, var(--bg) 58%, #100C09 100%);
+  overflow: hidden;
+  transition: transform 0.9s cubic-bezier(0.76, 0, 0.24, 1), visibility 0s linear 0.9s;
+}
+.preloader::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("../assets/grain.png") repeat;
+  opacity: 0.5;
+  pointer-events: none;
+}
+.preloader.is-leaving {
+  transform: translateY(-101%);
+  visibility: hidden;
+}
+
+.preloader-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(14px, 3vh, 26px);
+  padding: 0 var(--gutter);
+}
+
+.preloader-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  animation: pl-fade-up 0.8s var(--ease) both;
+}
+.preloader-name {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 2rem;
+  letter-spacing: 0.02em;
+  color: var(--cream);
+}
+
+.preloader-scene {
+  display: block;
+  width: min(440px, 82vw);
+  height: auto;
+  animation: pl-fade-up 0.8s var(--ease) 0.15s both;
+}
+
+.preloader-caption {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.2rem;
+  color: rgba(242, 235, 224, 0.78);
+  animation: pl-fade-up 0.8s var(--ease) 0.3s both;
+}
+
+.preloader-progress {
+  width: min(220px, 50vw);
+  height: 1px;
+  background: var(--hairline);
+  overflow: hidden;
+  animation: pl-fade-up 0.8s var(--ease) 0.3s both;
+}
+.preloader-progress span {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  transform-origin: left;
+  transform: scaleX(0);
+  animation: pl-load 4.4s linear 0.2s forwards;
+}
+
+/* Couteau : trois coups, en se décalant vers la droite */
+.pl-knife {
+  animation: pl-knife 3.2s cubic-bezier(0.6, 0, 0.3, 1) 0.5s both;
+}
+
+/* La miche se tasse légèrement à chaque impact */
+.pl-loaf {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: pl-loaf-bump 3.2s linear 0.5s both;
+}
+
+/* Tranches : chacune bascule juste après son coup de couteau */
+.pl-slice {
+  transform-box: fill-box;
+  transform-origin: 6% 100%;
+  animation: pl-fall 0.85s cubic-bezier(0.34, 1.4, 0.5, 1) both;
+}
+.pl-slice-1 { --fall: -84deg; animation-delay: 0.79s; }
+.pl-slice-2 { --fall: -62deg; animation-delay: 1.84s; }
+.pl-slice-3 { --fall: -38deg; animation-delay: 2.9s; }
+
+/* Farine soulevée par chaque coup */
+.pl-puff {
+  fill: rgba(242, 235, 224, 0.85);
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pl-puff 0.65s ease-out both;
+}
+.pl-puff-1 { animation-delay: 0.79s; }
+.pl-puff-2 { animation-delay: 1.84s; }
+.pl-puff-3 { animation-delay: 2.9s; }
+
+/* Miettes projetées au sol à chaque coup */
+.pl-crumbs {
+  fill: #D89A55;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pl-crumbs 0.8s ease-out both;
+}
+.pl-crumbs-1 { animation-delay: 0.79s; }
+.pl-crumbs-2 { animation-delay: 1.84s; }
+.pl-crumbs-3 { animation-delay: 2.9s; }
+
+/* Vapeur du pain chaud, en boucle */
+.pl-steam path {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: bottom center;
+  animation: pl-steam 2.8s ease-in-out var(--sd, 1s) infinite;
+}
+.pl-steam-1 { --sd: 1s; }
+.pl-steam-2 { --sd: 1.8s; }
+.pl-steam-3 { --sd: 2.5s; }
+
+/* Éléments boulangerie-pâtisserie qui flottent autour */
+.pl-float {
+  position: absolute;
+  z-index: 1;
+  width: clamp(30px, 4.5vw, 46px);
+  height: auto;
+  color: var(--accent);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0;
+  animation:
+    pl-float-in 1s ease var(--fd, 0.4s) forwards,
+    pl-bob var(--bd, 5s) ease-in-out 1s infinite alternate;
+}
+.pl-float-wheat     { top: 16%; left: 13%;  --fd: 0.35s; --bd: 4.6s; }
+.pl-float-croissant { top: 14%; right: 14%; --fd: 0.5s;  --bd: 5.4s; }
+.pl-float-whisk     { bottom: 22%; left: 12%;  --fd: 0.65s; --bd: 5s;   transform: rotate(-12deg); }
+.pl-float-cupcake   { bottom: 20%; right: 13%; --fd: 0.45s; --bd: 4.4s; }
+.pl-float-pin       { top: 47%; left: 5%;   --fd: 0.75s; --bd: 5.8s; }
+.pl-float-baguette  { top: 45%; right: 5%;  --fd: 0.6s;  --bd: 4.8s; }
+
+@media (max-width: 640px) {
+  .pl-float-pin, .pl-float-baguette { display: none; }
+}
+
+/* Visite déjà faite (ou reduced-motion) : scène figée déjà tranchée, sortie rapide */
+html.intro-quick .pl-knife,
+html.intro-quick .pl-puff,
+html.intro-quick .pl-crumbs { display: none; }
+html.intro-quick .pl-loaf { animation: none; }
+html.intro-quick .pl-steam path { animation: none; opacity: 0; }
+html.intro-quick .pl-slice { animation: none; transform: rotate(var(--fall)); }
+html.intro-quick .preloader-brand,
+html.intro-quick .preloader-scene,
+html.intro-quick .preloader-caption,
+html.intro-quick .preloader-progress { animation: none; opacity: 1; }
+html.intro-quick .preloader-progress span { animation: none; transform: scaleX(1); }
+html.intro-quick .pl-float { animation: none; opacity: 0.4; }
+
+@keyframes pl-fade-up {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes pl-load {
+  to { transform: scaleX(1); }
+}
+@keyframes pl-knife {
+  0%   { transform: translate(14px, -120px) rotate(-10deg); }
+  9%   { transform: translate(0, 0) rotate(0deg); }
+  20%  { transform: translate(0, 0) rotate(0deg); }
+  32%  { transform: translate(26px, -110px) rotate(-9deg); }
+  42%  { transform: translate(26px, 0) rotate(0deg); }
+  53%  { transform: translate(26px, 0) rotate(0deg); }
+  65%  { transform: translate(52px, -110px) rotate(-9deg); }
+  75%  { transform: translate(52px, 0) rotate(0deg); }
+  86%  { transform: translate(52px, 0) rotate(0deg); }
+  100% { transform: translate(64px, -140px) rotate(-14deg); }
+}
+@keyframes pl-fall {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(var(--fall)); }
+}
+@keyframes pl-puff {
+  0%   { opacity: 0; transform: scale(0.3) translateY(4px); }
+  30%  { opacity: 0.9; }
+  100% { opacity: 0; transform: scale(1.5) translateY(-14px); }
+}
+@keyframes pl-crumbs {
+  0%   { opacity: 0; transform: translate(0, 0) scale(0.6); }
+  25%  { opacity: 1; }
+  100% { opacity: 0; transform: translate(-14px, 30px) scale(1); }
+}
+@keyframes pl-steam {
+  0%   { opacity: 0; transform: translateY(8px) scaleY(0.7); }
+  35%  { opacity: 0.55; }
+  100% { opacity: 0; transform: translateY(-14px) scaleY(1.05); }
+}
+@keyframes pl-loaf-bump {
+  0%, 7%, 12%, 40%, 45%, 73%, 78%, 100% { transform: scale(1, 1); }
+  9%, 42%, 75% { transform: scale(1.015, 0.97); }
+}
+@keyframes pl-float-in {
+  to { opacity: 0.4; }
+}
+@keyframes pl-bob {
+  from { translate: 0 -7px; rotate: -3deg; }
+  to   { translate: 0 7px; rotate: 3deg; }
 }
 
 /* ---------- Reduced motion ---------- */
