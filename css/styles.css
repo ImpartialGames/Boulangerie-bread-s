@@ -374,10 +374,11 @@ section[id] { scroll-margin-top: 96px; }
   color: var(--muted);
   margin-top: 2px;
 }
-.counter {
+.proof-num {
   font-family: var(--font-display);
   font-weight: 600;
   font-size: 1.6rem;
+  line-height: 1.1;
   color: var(--accent-strong);
   font-variant-numeric: tabular-nums;
 }
@@ -388,9 +389,30 @@ section[id] { scroll-margin-top: 96px; }
   height: 44px;
   background: var(--hairline);
 }
+
+/* Mobile : trois lignes compactes séparées par un filet,
+   intitulé et détail sur la même ligne */
 @media (max-width: 700px) {
   .proof-sep { display: none; }
-  .proof-line { flex-direction: column; align-items: flex-start; }
+  .proof-line {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding-top: 6px;
+  }
+  .proof-item {
+    padding-block: 14px;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .proof-item:last-child { border-bottom: 0; }
+  .proof-item p {
+    flex-direction: row;
+    align-items: baseline;
+    flex-wrap: wrap;
+    column-gap: 12px;
+  }
+  .proof-sub { margin-top: 0; }
+  .avatar-stack img { width: 32px; height: 32px; }
 }
 
 .avatar-stack { display: flex; }
